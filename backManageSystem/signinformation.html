@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>V1签到管理系统</title>
+        <link rel="stylesheet" type="text/css" href="signinformation.css">
+        <script type="text/javascript" src="signinformation.js"></script>
+        <link rel="stylesheet" type="text/css" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+        <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">   
+    </head>
+    <body>
+        <div id="signinformation">
+                <div id="sign-title">
+                    <h2 id="title">V1签到管理系统</h2>
+                    <button id="btn-quit" type="button" onclick="onBtnQuitClick()">退出</button>
+                </div>
+
+                <div id="sign-content">
+                    <div id="sign-left">
+                        <button id="btn-situation" type="button" onclick="onBtnSituationClick()">实时概况</button>
+                        <button id="btn-signlist" type="button" autofocus="autofocus" onclick="onBtnSignlistClick()">签到列表</button>
+                        <button id="btn-dataanalyze" type="button" onclick="onBtnDataAnalyzeClick()">数据分析</button>
+                    </div>
+
+                    <div id="sign-right">
+                        <div id="sign-right-top">
+                            <div id="right-top-first">
+                                <h2 id="right-top-title">请输入条件进行搜索：</h2>
+                                <button id="btn-export" type="button" onclick="onBtnExportClick()" title="消息导出"></button>
+                                <button id="btn-import" type="button" onclick="onBtnImportClick()" ng-model="bIsImportClick" ng-init="bIsImportClick = false" title="信息录入"  ></button>
+                                <button id="btn-refresh" type="button" onclick="onBtnRefreshClick()" title="刷新"></button>                               
+                            </div>
+                            <div id="right-top-second">
+                                <div id="right-second-condition">
+                                    <h2 id="right-condition-title">输入条件：</h2>
+                                    <input id="condition" type="text" placeholder="姓名/手机号/公司名称/职位"><!-- /签到码 -->
+                                </div>
+                                <div id="right-second-signtype" style="display:none">
+                                    <h2 id="right-signtype-title">签到类型：</h2>
+                                    <select id="signin-type">
+                                        <option value="all-signin">全部签到</option>
+                                        <option value="all-nosignin">全部未签到</option>
+                                        <option value="face-signin">人脸签到</option>
+                                        <option value="tel-signin">手机号签到</option>
+                                        <option value="qrcode-signin">二维码签到</option>
+                                        <option value="pre-signin">预注册签到</option>
+                                    </select>
+                                </div>
+                                <div id="right-second-persontype">
+                                    <h2 id="right-persontype-title">人员类型：</h2>
+                                    <select id="people-type">
+                                        <option value="all-people">全部选择</option>
+                                        <option value="general">普通人员</option>
+                                        <option value="special">特殊人员</option>
+                                        <option value="vip">VIP人员</option>
+                                    </select>
+                                </div>
+
+                                <!-- </select>
+                                <span>小V编号：</span>
+                                <select id="robot">
+                                    <option value="all-robot">全部选择</option>
+                                    <option value="robot-001">小薇001</option>
+                                </select> -->
+
+                                <div id="right-second-btn">
+                                    <button id="btn-inquire" type="button" onclick="onBtnInquireClick()">查询</button>
+                                    <button id="btn-reset" type="button" onclick="onBtnResetClick()">重置</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="sign-right-bottom">
+                            <div id="sign-bottom-table">
+                                <table id="table" class="In-table">
+                                </table>
+
+                                <div id="sign-bottom-btn">
+                                    <div id="pageNumber">
+                                        <div id="pageshow">
+                                            每页显示<input type="text" id="PageNo" size="3" value="6" style="display:none"/>6行<br/>
+                                            <!-- 每页显示<span id="PageNo" value="6"></span>行 -->
+                                        </div>
+                                        <div id="totalshow">
+                                            总共<span id="s1"></span>页
+                                        </div>
+                                        <div id="currentshow">
+                                            当前第<span id="s2"></span>页
+                                        </div>
+                                        
+                                        <div id="div-button">
+                                                <input type="button" value="首页" id="F-page" onclick="Fponclick()">
+                                                <input type="button" value="上一页" id="Pre-page" onclick="Prponclick()">
+                                                <input type="button" value="下一页" id="Nex-page" onclick="Neponclick()">                                              
+                                                <input type="button" value="尾页" id="L-page" onclick="Lponclick()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+
+            
+
+
+            <!--人员信息导出  -->
+            <!-- <br>
+            <div id="information-export" style="display:none">
+                <h2>导出签到列表</h2>
+                <button id="export-sure" type="button" onclick="onBtnExportSureClick()">确认导出</button>
+                <button id="export-close" type="button" onclick="onBtnExportCloseClick()">关闭</button>
+            </div> -->
+            
+
+        </div>
+
+        <!--注册  -->
+        <div id="information-import" style="display:none" style="z-index:10">
+            <div id="import-title">
+                <h2 id="title-text">信息录入</h2>
+                <button id="btn-close" type="button" onclick="onBtnCloseClick()"></button>
+            </div>
+            <div id="import-content">
+                <div id="name">
+                    <div id="name-first">
+                        <span style="color:red">*</span>
+                        <label id-="name-lab">姓名：</label>
+                        <input type="text" id="import-name" placeholder="请输入姓名" onchange="importnameErrorHide()" required>
+                    </div>
+                    <span id="import-name-error"></span>
+                </div>
+                <div id="company">
+                    <div id="company-first">
+                        <label id="company-lab">公司：</label>
+                        <input type="text" id="import-company" placeholder="请输入公司名称">
+                    </div>
+                    <span id="import-company-error"></span>
+                </div>
+                <div id="gender">
+                    <div id="gender-first">
+                        <span style="color:red">*</span>
+                        <label id="gender-lab">性别：</label>
+                        <select id="import-sex" required>
+                            <option value="male">男</option>
+                            <option value="female">女</option>
+                        </select> 
+                    </div>
+                </div>
+                <div id="job">
+                    <div id="job-first">
+                        <label id="job-lab">职位：</label>
+                        <input type="text" id="import-job" placeholder="请输入职位">
+                    </div>
+                    <span id="import-job-error"></span>
+                </div>
+                <div id="tel">
+                    <div id="tel-first">
+                        <span style="color:red">*</span>
+                        <label id="tel-lab">手机：</label>
+                        <input type="text" id="import-tel" placeholder="请输入手机号" onchange="importtelErrorHide()" required>
+                    </div>
+                    <span id="import-tel-error"></span>
+                </div>
+                <div id="person">
+                    <div id="person-first">
+                        <span id="person-star" style="color:red">*</span>
+                        <label id="person-lab">人员类型：</label>
+                        <select id="import-people-type" required>
+                            <option value="general">普通人员</option>
+                            <option value="special">特殊人员</option>
+                            <option value="vip">VIP人员</option>
+                        </select>  
+                    </div>
+                </div>
+                <div id="signcode">
+                    <div id="signcode-first">
+                        <label id="signcode-lab">签到码：</label>
+                        <input type="text" id="import-signValue" placeholder="请输入签到码">
+                    </div>
+                    <span id="import-signcode-error"></span>
+                </div>
+                <div id="photo">
+                    <div id="photo-first">
+                        <div id="photo-lab-div">
+                           <label id="photo-lab">照片：</label> 
+                        </div>
+                        <input id="import-photo" type="file" onChange="onUploadPictureChanged(this)">  
+                        <img id="preview"> 
+                    </div>                 
+                </div>
+            </div>
+
+            <div id="import-bottom">
+                <button id="import-sure" type="button" onclick="onBtnImportSureClick()">确认</button>
+                <button id="import-cancel" type="button" onclick="onBtnImportCancelClick()">取消</button>
+            </div>
+        </div>
+        <!-- 编辑名片  -->
+        <!-- <br>
+        <div id="card-edit" style="display:none">
+            <h2>名片查看</h2>
+            <button id="card-close" type="button">关闭</button>
+            <img src="" alt="无名片">
+        </div> -->
+
+        <!-- 信息编辑与信息删除 -->
+        <div id="information-edit" style="display:none" style="z-index:10">
+            <div id="edit-title">
+                <h2 id="edit-title-text">信息编辑</h2>
+                <button id="edit-btn-close" type="button" onclick="onEditBtnCloseClick()"></button>
+            </div>
+            <div id="edit-content">
+                <div id="edit-name-div">
+                    <div id="edit-name-first">
+                        <span style="color:red">*</span>
+                        <label id-="edit-name-lab">姓名：</label>
+                        <input type="text" id="edit-name" placeholder="请输入姓名" onchange="editnameErrorHide()" required>
+                    </div>
+                    <span id="edit-name-error"></span>
+                </div>
+                <div id="edit-company-div">
+                    <div id="edit-company-first">
+                        <label id="edit-company-lab">公司：</label>
+                        <input type="text" id="edit-company" placeholder="请输入公司名称">
+                    </div>
+                    <span id="edit-company-error"></span>
+                </div>
+                <div id="edit-gender">
+                    <div id="edit-gender-first">
+                        <span style="color:red">*</span>
+                        <label id="edit-gender-lab">性别：</label>
+                        <select id="edit-sex" required>
+                            <option value="male">男</option>
+                            <option value="female">女</option>
+                        </select> 
+                    </div>
+                </div>
+                <div id="edit-job-div">
+                    <div id="edit-job-first">
+                        <label id="edit-job-lab">职位：</label>
+                        <input type="text" id="edit-job" placeholder="请输入职位">
+                    </div>
+                    <span id="edit-job-error"></span>
+                </div>
+                <div id="edit-tel-div">
+                    <div id="edit-tel-first">
+                        <span style="color:red">*</span>
+                        <label id="edit-tel-lab">手机：</label>
+                        <input type="text" id="edit-tel" placeholder="请输入手机号" onchange="edittelErrorHide()"required>
+                    </div>
+                    <span id="edit-tel-error"></span>
+                </div>
+                <div id="edit-person">
+                    <div id="edit-person-first">
+                        <span id="edit-person-star" style="color:red">*</span>
+                        <label id="edit-person-lab">人员类型：</label>
+                        <select id="edit-peopletype" required>
+                            <option value="general">普通人员</option>
+                            <option value="special">特殊人员</option>
+                            <option value="vip">VIP人员</option>
+                        </select>  
+                    </div>
+                </div>
+                <div id="edit-signcode">
+                    <div id="edit-signcode-first">
+                        <label id="edit-signcode-lab">签到码：</label>
+                        <input type="text" id="edit-qrcode" placeholder="请输入签到码">
+                    </div>
+                    <span id="edit-signcode-error"></span>
+                </div>
+                <div id="edit-photo-div">
+                    <div id="edit-photo-first">
+                        <div id="edit-photo-lab-div">
+                           <label id="edit-photo-lab">照片：</label> 
+                        </div>
+                        <input id="edit-photo" type="file" onChange="onEditUploadPictureChanged(this)">  
+                        <img id="edit-preview"> 
+                    </div>                 
+                </div>
+            </div>
+
+            <div id="edit-bottom">
+                <button id="edit-save" type="button" onclick="onBtnEditSaveClick()">保存</button>
+                <button id="edit-delete" type="button" onclick="onBtnEditDeleteClick()">删除</button>
+                <button id="edit-cancel" type="button" onclick="onBtnEditCancelClick()">取消</button>
+            </div>
+        </div>
+        
+    </body>
+</html>

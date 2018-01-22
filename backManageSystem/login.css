@@ -1,0 +1,102 @@
+#login{
+    background: url(images/login-background.png) center bottom no-repeat;
+    min-height: 722px;
+    width: 100%;
+    /* padding-top: 64px; */
+}
+
+#logo{
+    background: url(images/logo.png) center center no-repeat;
+    height: 78px;
+    width: 166px;
+    margin-left: 410px;
+    margin-top: 120px;
+}
+
+#login-title{
+    width: 500px;
+    height: 70px;
+    margin: 10% auto 0; 
+    text-align: center;
+    position: relative;
+}
+
+#img-xiaov{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -90px;
+    margin: 0 auto;
+    z-index: -1;
+}
+
+#img-hands{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -8px;
+    margin: 0 auto;
+}
+
+#title{
+    line-height: 70px;
+    color: #fff;
+    text-align: center;
+    background: #40bbf5;
+}
+
+#login-content{
+    width: 500px;
+    height: 296px;
+    text-align: center;
+    margin: 10% auto 0; 
+    margin-top: 0px;
+    /* border: 1px solid #40bbf5; */
+    background-color: white;
+    
+}
+
+#username{
+    width: 300px;
+    height: 50px;
+    background: url(images/user-name.png) 20px center no-repeat;
+    background-color: white;
+    padding-left: 60px;
+    font: 20px bold;
+    margin: 10px 0px;
+}
+
+#password{
+    width: 300px;
+    height: 50px;
+    background: url(images/password.png) 20px center no-repeat;
+    background-color: white;
+    padding-left: 62px;
+    font: 20px bold;
+    margin: 10px 0px;
+}
+
+#btn-login{
+    height: 50px;
+    width: 300px;
+    background: #3fb4ea;
+    border: 0;
+    font-size: 24px;
+    color: #fff;
+    border-radius: 4px;
+    outline: 0;
+    cursor: pointer;
+}
+
+#help{
+    color: #999;
+    text-align: center;
+    font-size: 12px;
+}
+
+#error{
+    font-size: 12px;
+    height: 20px;
+    display: block;
+    color: red;
+}
